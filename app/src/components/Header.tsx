@@ -1,16 +1,17 @@
-import React, {FC, useEffect, useState, useContext} from 'react';
-import axios from 'axios';
-import CurrencyService from '../api/CurrencyService';
-import Currency from '../interfaces/currency';
+import React, {FC, useContext} from 'react';
+
 import { CurrencyContext } from '../App';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBriefcase } from '@fortawesome/free-solid-svg-icons';
 
 const Header: FC = () => {
-    const {currencyList, isLoading} = useContext(CurrencyContext);
+    const {currencyList, isLoading, briefcase, setBriefcase} = useContext(CurrencyContext);
     const currencyListTop = currencyList.slice(0, 3);
 
-    const briefcase = 1234.56;
+    const briefcasePrice = briefcase.reduce((price, item) => price += item.price * item.value, 0)
+
+    const resetBriefcase = () => {
+        localStorage.setItem('briefcase', '');
+        setBriefcase([])
+    }
 
     return (
         <header className="header">
@@ -19,13 +20,17 @@ const Header: FC = () => {
             {
                 isLoading ? <p>Loading...</p> :
                 <div className='top-currency'>
-                    {currencyListTop.map(currency => <span id={currency.id}>{currency.symbol}: {currency.priceUsd} USD</span>)}
+                    {currencyListTop.map(currency => <span key={currency.id}>{currency.symbol}: {currency.priceUsd} USD</span>)}
                 </div>
             }
-            <div className='portfolio'>
-                <i className="fa-solid fa-briefcase fa-2xl"></i>
-                {briefcase} USD
-            </div>
+            {
+                isLoading ? <p>Loading...</p> :
+                <div className='portfolio'>
+                    <i className="fa-solid fa-briefcase fa-2xl"></i>
+                    {briefcasePrice} USD
+                    <button onClick={resetBriefcase}>reset</button>
+                </div>
+            }
         </div>
         </div>
         </header>
