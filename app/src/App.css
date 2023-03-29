@@ -49,6 +49,10 @@ body {
           justify-content: space-between;
 }
 
+.briefcase {
+  cursor: pointer;
+}
+
 .top-currency {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -79,4 +83,22 @@ body {
 }
 .currency-list > *:nth-child(even) {
   background: #eff3f5;
+}
+
+.briefcase-modal, .purchase-modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: none;
+  background: rgba(0, 0, 0, 0.5);
+}
+.briefcase-modal.active, .purchase-modal.active {
+  display: block;
+}
+.briefcase-modal .content, .purchase-modal .content {
+  background: #f3f3f3;
+  border-radius: 12px;
+  padding: 20px;
 }

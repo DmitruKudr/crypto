@@ -23,15 +23,19 @@ export const CurrencyContext = createContext<ContextType>({
 });
 
 const App: FC = () => {
-    const [currencyList, setCurrency] = useState<Currency[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [briefcase, setBriefcase] = useState<Briefcase>(getBriefcase())
-
+    
     const fetchData = async(limit = 10) => {
         const result = await CurrencyService.getAll(limit);
         setCurrency(result);
         setIsLoading(false);
     }
+    useEffect(() => {
+        fetchData();
+    }, [])
+
+    const [currencyList, setCurrency] = useState<Currency[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [briefcase, setBriefcase] = useState<Briefcase>(getBriefcase())
 
     function getBriefcase(): Briefcase {
         const briefcase = localStorage.getItem('briefcase');
@@ -40,14 +44,6 @@ const App: FC = () => {
     const updateBriefcase = () => {
         localStorage.setItem('briefcase', JSON.stringify(briefcase));
     }
-
-    useEffect(() => {
-        fetchData();
-    }, [])
-
-    useEffect(() => {
-        updateBriefcase()
-    }, [briefcase])
 
     return (
         <CurrencyContext.Provider value = {{

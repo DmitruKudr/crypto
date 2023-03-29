@@ -2,31 +2,39 @@ import React, {FC, useContext, useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CurrencyContext } from '../../App';
 import Currency from '../../interfaces/currency';
+import BriefcaseModal from '../modals/BriefcaseModal';
+import PurchaseModal from '../modals/PurchaseModal';
 
 const MainPage: FC = () => {
-    const {currencyList, isLoading, briefcase, setBriefcase, updateBriefcase} = useContext(CurrencyContext);
-    const [page, setPage] = useState(1);
     const navigate = useNavigate();
-
-    const pageLimit = 3;
-    const currentList = currencyList.slice((page - 1) * pageLimit, page * pageLimit);
-
-    const buyCurrency = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, item: Currency) => {
-        e.stopPropagation();
-        const value = 1;
-
-        item.name in briefcase ? 
-        setBriefcase({...briefcase, [item.name] : {value: briefcase[item.name].value + value, price: briefcase[item.name].price}}) :
-        setBriefcase({...briefcase, [item.name] : {value: value, price: +item.priceUsd}});
-        //updateBriefcase();
-    }
+    const {currencyList, isLoading, briefcase, updateBriefcase} = useContext(CurrencyContext);
 
     useEffect(() => {
         updateBriefcase()
     }, [briefcase])
 
+
+    const pageLimit = 3;
+    const [page, setPage] = useState(1);
+    const currentList = currencyList.slice((page - 1) * pageLimit, page * pageLimit);
+
+
+    const [purchaseModal, setPurchaseModal] = useState(true);
+    const [selectedCurrency, setSelectedCurrency] = useState<Currency | null>(null);
+
+    const openModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, currency: Currency) => {
+        e.stopPropagation();
+
+        console.log(currency);
+        setSelectedCurrency(currency);
+        setPurchaseModal(true);
+    }
+
     return (
         <main className="main-page">
+        
+        { selectedCurrency && <PurchaseModal modal={{visible: purchaseModal, setVisible: setPurchaseModal}} currency={selectedCurrency}/> }
+        
         <div className='wrapper'>
             {
                 isLoading ? <p>Loading...</p> :
@@ -41,7 +49,7 @@ const MainPage: FC = () => {
                             <p>{currency.changePercent24Hr}</p>
                             <p>{currency.vwap24Hr}</p>
 
-                            <button onClick={e => buyCurrency(e, currency)}>Add</button>
+                            <button onClick={(e) => openModal(e, currency)}>Add</button>
                         </div>
                     )}
                 </div>

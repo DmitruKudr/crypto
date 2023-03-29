@@ -1,4 +1,5 @@
-import React, {FC, useContext} from 'react';
+import React, {FC, useContext, useState} from 'react';
+import BriefcaseModal from './modals/BriefcaseModal';
 
 import { CurrencyContext } from '../App';
 
@@ -9,13 +10,19 @@ const Header: FC = () => {
     //const briefcasePrice = briefcase.reduce((price, item) => price += item.price * item.value, 0)
     const briefcasePrice = Object.values(briefcase).reduce((total, item) => total += item.value * item.price, 0)
 
-    const resetBriefcase = () => {
+    const resetBriefcase = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.stopPropagation();
         localStorage.setItem('briefcase', '')
         setBriefcase({})
     }
 
+    const [briefcaseModal, setBriefcaseModal] = useState(false);
+
     return (
         <header className="header">
+
+        <BriefcaseModal visible={briefcaseModal} setVisible={setBriefcaseModal} />
+
         <div className='wrapper'>
         <div className='header-content'>
             {
@@ -26,10 +33,10 @@ const Header: FC = () => {
             }
             {
                 isLoading ? <p>Loading...</p> :
-                <div className='portfolio'>
+                <div className='briefcase' onClick={() => setBriefcaseModal(true)}>
                     <i className="fa-solid fa-briefcase fa-2xl"></i>
                     {briefcasePrice} USD
-                    <button onClick={resetBriefcase}>reset</button>
+                    <button onClick={e => resetBriefcase(e)}>reset</button>
                 </div>
             }
         </div>
