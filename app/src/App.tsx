@@ -9,15 +9,15 @@ import Briefcase from './interfaces/briefcase';
 type ContextType = {
     currencyList: Currency[],
     isLoading: boolean,
-    briefcase: Briefcase[],
-    setBriefcase: React.Dispatch<React.SetStateAction<Briefcase[]>> | (() => void)
-    updateBriefcase: ((briefcase: Briefcase) => void) | (() => void)
+    briefcase: Briefcase,
+    setBriefcase: React.Dispatch<React.SetStateAction<Briefcase>> | (() => void)
+    updateBriefcase: () => void
 }
 
 export const CurrencyContext = createContext<ContextType>({
     currencyList: [],
     isLoading: true,
-    briefcase: [],
+    briefcase: {},
     setBriefcase: () => {},
     updateBriefcase: () => {}
 });
@@ -25,7 +25,7 @@ export const CurrencyContext = createContext<ContextType>({
 const App: FC = () => {
     const [currencyList, setCurrency] = useState<Currency[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [briefcase, setBriefcase] = useState<Briefcase[]>(getBriefcase())
+    const [briefcase, setBriefcase] = useState<Briefcase>(getBriefcase())
 
     const fetchData = async(limit = 10) => {
         const result = await CurrencyService.getAll(limit);
@@ -33,20 +33,21 @@ const App: FC = () => {
         setIsLoading(false);
     }
 
-    function getBriefcase(): Briefcase[] {
+    function getBriefcase(): Briefcase {
         const briefcase = localStorage.getItem('briefcase');
-        //console.log(briefcase);
-        return briefcase ? JSON.parse(briefcase) : []
+        return briefcase ? JSON.parse(briefcase) : {}
     }
-    const updateBriefcase = (data: Briefcase) => {
-        setBriefcase([...briefcase.filter(item => item.currency !== data.currency), data]);
+    const updateBriefcase = () => {
         localStorage.setItem('briefcase', JSON.stringify(briefcase));
-        //console.log(localStorage.getItem('briefcase'));
     }
 
     useEffect(() => {
         fetchData();
     }, [])
+
+    useEffect(() => {
+        updateBriefcase()
+    }, [briefcase])
 
     return (
         <CurrencyContext.Provider value = {{

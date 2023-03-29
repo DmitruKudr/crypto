@@ -1,29 +1,29 @@
-import React, {FC, useContext, useState} from 'react';
+import React, {FC, useContext, useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CurrencyContext } from '../../App';
 import Currency from '../../interfaces/currency';
 
 const MainPage: FC = () => {
-    const {currencyList, isLoading, briefcase, updateBriefcase} = useContext(CurrencyContext);
+    const {currencyList, isLoading, briefcase, setBriefcase, updateBriefcase} = useContext(CurrencyContext);
     const [page, setPage] = useState(1);
     const navigate = useNavigate();
 
     const pageLimit = 3;
     const currentList = currencyList.slice((page - 1) * pageLimit, page * pageLimit);
 
-    const buyCurrency = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, currency: Currency) => {
+    const buyCurrency = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, item: Currency) => {
         e.stopPropagation();
         const value = 1;
 
-        const itemToUpdate = briefcase.filter(item => item?.currency === currency.name)[0];
-        console.log(itemToUpdate);
-        if(itemToUpdate) {
-            itemToUpdate.value += value;
-            updateBriefcase(itemToUpdate);
-        } else {
-            updateBriefcase({ currency: currency.name, value: value, price: +currency.priceUsd })
-        };
+        item.name in briefcase ? 
+        setBriefcase({...briefcase, [item.name] : {value: briefcase[item.name].value + value, price: briefcase[item.name].price}}) :
+        setBriefcase({...briefcase, [item.name] : {value: value, price: +item.priceUsd}});
+        //updateBriefcase();
     }
+
+    useEffect(() => {
+        updateBriefcase()
+    }, [briefcase])
 
     return (
         <main className="main-page">

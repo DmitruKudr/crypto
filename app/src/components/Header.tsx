@@ -6,11 +6,12 @@ const Header: FC = () => {
     const {currencyList, isLoading, briefcase, setBriefcase} = useContext(CurrencyContext);
     const currencyListTop = currencyList.slice(0, 3);
 
-    const briefcasePrice = briefcase.reduce((price, item) => price += item.price * item.value, 0)
+    //const briefcasePrice = briefcase.reduce((price, item) => price += item.price * item.value, 0)
+    const briefcasePrice = Object.values(briefcase).reduce((total, item) => total += item.value * item.price, 0)
 
     const resetBriefcase = () => {
-        localStorage.setItem('briefcase', '');
-        setBriefcase([])
+        localStorage.setItem('briefcase', '')
+        setBriefcase({})
     }
 
     return (
