@@ -12,11 +12,17 @@ const PurchaseModal: FC<CombinedProps> = ({modal, currency}) => {
     const {briefcase, setBriefcase} = useContext(CurrencyContext)
     const [value, setValue] = useState('1');
 
-    const purchaseCurrency = (item: Currency) => {
+    const purchaseCurrency = () => {
         console.log(currency)
-        item.name in briefcase ? 
-        setBriefcase({...briefcase, [item.name] : {price: +item.priceUsd, value: briefcase[item.name].value + +value}}) :
-        setBriefcase({...briefcase, [item.name] : {price: +item.priceUsd, value: +value}});
+        currency.name in briefcase ?
+        setBriefcase({...briefcase, [currency.name] : { 
+            price: briefcase[currency.name].price + +currency.priceUsd * +value,
+            value: briefcase[currency.name].value + +value
+        }}) :
+        setBriefcase({...briefcase, [currency.name] : {
+            price: +currency.priceUsd * +value, 
+            value: +value
+        }});
     }
 
     return (
@@ -32,7 +38,7 @@ const PurchaseModal: FC<CombinedProps> = ({modal, currency}) => {
                     onChange={e => setValue(e.target.value)}
                 />
                 <p>Total: {+value * +currency.priceUsd}</p>
-                <button onClick={() => purchaseCurrency(currency)}>Purchase</button>
+                <button onClick={() => purchaseCurrency()}>Purchase</button>
             </div>
         </div>
     );
