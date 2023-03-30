@@ -1,7 +1,8 @@
 $page-background: #f3f3f3;
-$header-background: #343434;
-$text-color-light: #adadad;
-$text-color-dark: #343420;
+$color-dark: #343434;
+$color-light: #f3eded;
+$color-light-hover: #abaaa5;
+$color-blue: #7ca5d7;
 $list-background1: #e4e8e9;
 $list-background2: #eff3f5;
 
@@ -29,28 +30,70 @@ body {
     margin: 0 auto;
 }
 
-
+h1 {
+    font-family: Inter,-apple-system,BlinkMacSystemFont,segoe ui,Roboto,Helvetica,Arial,sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+}
+h2 {
+    font-family: Inter,-apple-system,BlinkMacSystemFont,segoe ui,Roboto,Helvetica,Arial,sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+}
+h3 {
+    font-family: Inter,-apple-system,BlinkMacSystemFont,segoe ui,Roboto,Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+}
+h4 {
+    font-family: Inter,-apple-system,BlinkMacSystemFont,segoe ui,Roboto,Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+}
+.price {
+    color: $color-blue;
+}
+.plus {
+    color: #3cc16d;
+}
+.minus {
+    color: #ec5252;
+}
 .header {
     width: 100%;
-    padding: 30px 0;
+    padding: 20px 0;
 
-    background: $header-background;
-    color: $text-color-light;
-}
-.header-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.briefcase {
-    cursor: pointer;
-}
-.top-currency {
-    display: flex;
-    gap: 30px;
+    background: $color-dark;
+    color: $color-light;
+
+    .content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .top-list {
+            display: flex;
+            gap: 30px;
+        }
+        .portfolio {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            border-top: 3px solid transparent;
+            border-bottom: 3px solid transparent;
+            transition: all .3s ease-in-out;
+            padding-bottom: 5px;
+
+            &:hover {
+                border-bottom: 3px solid $color-blue;
+                transition: all .3s ease-in-out;
+            }
+        }
+    }
 }
 
-.main-page {
+.main-page, .currency-page {
     width: 100%;
 }
 
@@ -59,16 +102,65 @@ body {
     margin: 20px 0;
     display: flex;
     flex-direction: column;
-    color: $text-color-dark;
+    color: $color-dark;
 
     .item {
-        padding: 10px 20px;
-        background: $list-background1;
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
         cursor: pointer;
-    }
 
-    & > *:nth-child(even) {
-        background: $list-background2;
+        padding: 20px 0;
+        border-bottom: 1px solid $color-dark;
+
+        transition: all .3s ease-in-out;
+
+        &:hover {
+            background: $list-background1;
+            transition: all .3s ease-in-out;
+        }
+
+        & > :nth-child(n) {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            justify-self: center;
+            align-self: center;
+        }
+    }
+}
+
+.pagination {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.button, input {
+    outline: none;
+    border: 3px solid $color-blue;
+    border-radius: 6px;
+    background: $color-light;
+    padding: 5px 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: $color-dark;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.button {
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+
+    &:hover {
+        color: $color-light;
+        background: $color-blue;
+        transition: all .3s ease-in-out;
     }
 }
 
@@ -80,18 +172,63 @@ body {
     left: 0;
     display: none;
     background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
 
     &.active {
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .content {
+        min-width: 300px;
         background: $page-background;
+        color: $color-dark;
         border-radius: 12px;
         padding: 20px;
     }
 }
+.briefcase-modal .list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    color: $color-dark;
+
+    .item {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        cursor: pointer;
+
+        padding: 20px 0;
+        border-bottom: 1px solid $color-dark;
+
+        transition: all .3s ease-in-out;
+
+        &:hover {
+            background: $list-background1;
+            transition: all .3s ease-in-out;
+        }
+
+        & > :nth-child(n) {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            justify-self: center;
+        }
+    }
+}
+
+.purchase-modal .content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 
 .currency-page {
-    width: 100%;
+    .content {
+        display: flex;
+        justify-content: space-between;
+        color: $color-dark;
+    }
 }

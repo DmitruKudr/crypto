@@ -10,9 +10,18 @@ const MainPage: FC = () => {
     const {currencyList, isLoading, selectedCurrency, setSelectedCurrency} = useContext(CurrencyContext);
 
 
-    const pageLimit = 3;
+    const pageLimit = 5;
     const [page, setPage] = useState(1);
     const currentList = currencyList.slice((page - 1) * pageLimit, page * pageLimit);
+
+    const changePage = (nextPage: number) => {
+        if(nextPage == 1) {
+            if(page * pageLimit <= currencyList.length) 
+                setPage(page + nextPage)
+        } else if(page > 1) {
+            setPage(page - 1)
+        }
+    }
 
 
     const [purchaseModal, setPurchaseModal] = useState(false);
@@ -41,24 +50,41 @@ const MainPage: FC = () => {
             {
                 isLoading ? <p>Loading...</p> :
                 <div className='currency-list'>
+                    <div className='item'>
+                        <h3>Name</h3>
+                        <h3>Price</h3>
+                        <h3>24h%</h3>
+                        <h3>Market Cap</h3>
+                        <h3>Volume(24h)</h3>
+                        <h3>Circulating Supply</h3>
+                    </div>
                     {currentList.map(currency => 
                         <div className='item' key={currency.id} onClick={() => openCurrencyPage(currency)}>
-                            <p>{currency.name}</p> 
-                            <p>{currency.priceUsd} USD</p> 
-                            <p>{currency.maxSupply ? `${currency.supply} / ${currency.maxSupply}` : currency.supply}</p>
-                            <p>{currency.marketCapUsd}</p>
-                            <p>{currency.volumeUsd24Hr}</p>
-                            <p>{currency.changePercent24Hr}</p>
-                            <p>{currency.vwap24Hr}</p>
+                            <h4>{currency.name} {currency.symbol}</h4> 
+                            <h4 className='price'>${(+currency.priceUsd).toFixed(2)}</h4>
+                            <h4>{
+                                +currency.changePercent24Hr >= 0 ?
+                                <span className='plus'>+{(+currency.changePercent24Hr).toFixed(2)}%</span> :
+                                <span className='minus'>{(+currency.changePercent24Hr).toFixed(2)}%</span>
+                            }</h4>
+                            <h4>${(+currency.marketCapUsd).toFixed(2)}</h4>
+                            <h4>${(+currency.volumeUsd24Hr).toFixed(2)}</h4>
+                            <h4>{
+                                currency.maxSupply ? 
+                                <>{(+currency.supply).toFixed(0)} / <br/>{(+currency.maxSupply).toFixed(0)}</> : 
+                                (+currency.supply).toFixed(0)
+                            }</h4>
 
-                            <button onClick={(e) => openModal(e, currency)}>Add</button>
+                            <button className='button' onClick={(e) => openModal(e, currency)}>Purchase</button>
                         </div>
                     )}
                 </div>
             }
-            <button onClick={() => setPage(page - 1)}>prev</button>
-            {page}
-            <button onClick={() => setPage(page + 1)}>next</button>
+            <div className='pagination'>
+                <button className='button' onClick={() => changePage(-1)}>Previous page</button>
+                <h2>{page}</h2>
+                <button className='button' onClick={() => changePage(1)}>Next page</button>
+            </div>
         </div>
         </main>
     );

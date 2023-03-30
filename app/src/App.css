@@ -30,14 +30,49 @@ body {
   margin: 0 auto;
 }
 
-.header {
-  width: 100%;
-  padding: 30px 0;
-  background: #343434;
-  color: #adadad;
+h1 {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, segoe ui, Roboto, Helvetica, Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
 }
 
-.header-content {
+h2 {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, segoe ui, Roboto, Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+h3 {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, segoe ui, Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+h4 {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, segoe ui, Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.price {
+  color: #7ca5d7;
+}
+
+.plus {
+  color: #3cc16d;
+}
+
+.minus {
+  color: #ec5252;
+}
+
+.header {
+  width: 100%;
+  padding: 20px 0;
+  background: #343434;
+  color: #f3eded;
+}
+.header .content {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -48,19 +83,34 @@ body {
       -ms-flex-pack: justify;
           justify-content: space-between;
 }
-
-.briefcase {
-  cursor: pointer;
-}
-
-.top-currency {
+.header .content .top-list {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   gap: 30px;
 }
+.header .content .portfolio {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  padding-bottom: 5px;
+}
+.header .content .portfolio:hover {
+  border-bottom: 3px solid #7ca5d7;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
 
-.main-page {
+.main-page, .currency-page {
   width: 100%;
 }
 
@@ -74,15 +124,85 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  color: #343420;
+  color: #343434;
 }
 .currency-list .item {
-  padding: 10px 20px;
-  background: #e4e8e9;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[7];
+  grid-template-columns: repeat(7, 1fr);
   cursor: pointer;
+  padding: 20px 0;
+  border-bottom: 1px solid #343434;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
-.currency-list > *:nth-child(even) {
-  background: #eff3f5;
+.currency-list .item:hover {
+  background: #e4e8e9;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+.currency-list .item > :nth-child(n) {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-grid-column-align: center;
+      justify-self: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
+.pagination {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 10px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.button, input {
+  outline: none;
+  border: 3px solid #7ca5d7;
+  border-radius: 6px;
+  background: #f3eded;
+  padding: 5px 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: #343434;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.button {
+  cursor: pointer;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+.button:hover {
+  color: #f3eded;
+  background: #7ca5d7;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .briefcase-modal, .purchase-modal {
@@ -93,16 +213,86 @@ body {
   left: 0;
   display: none;
   background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
 }
 .briefcase-modal.active, .purchase-modal.active {
-  display: block;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 .briefcase-modal .content, .purchase-modal .content {
+  min-width: 300px;
   background: #f3f3f3;
+  color: #343434;
   border-radius: 12px;
   padding: 20px;
 }
 
-.currency-page {
+.briefcase-modal .list {
   width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  color: #343434;
+}
+.briefcase-modal .list .item {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[4];
+  grid-template-columns: repeat(4, 1fr);
+  cursor: pointer;
+  padding: 20px 0;
+  border-bottom: 1px solid #343434;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+.briefcase-modal .list .item:hover {
+  background: #e4e8e9;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+.briefcase-modal .list .item > :nth-child(n) {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-grid-column-align: center;
+      justify-self: center;
+}
+
+.purchase-modal .content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 10px;
+}
+
+.currency-page .content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  color: #343434;
 }

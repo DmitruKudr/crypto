@@ -43,25 +43,40 @@ const CurrencyPage: FC = () => {
 
     return (
         <main className="currency-page">
-        { selectedCurrency && <PurchaseModal modal={{visible: purchaseModal, setVisible: setPurchaseModal}} currency={selectedCurrency}/> }
-            <h1>{selectedCurrency?.name}</h1>
-            {
-                isLoading ? <p>Loading...</p> :
-                <div style={{width: 500, height: 500}}>
+        <div className='wrapper'>
+        { selectedCurrency && 
+        <div className='content'>
+        <div>
+            <PurchaseModal modal={{visible: purchaseModal, setVisible: setPurchaseModal}} currency={selectedCurrency}/>
+            <h1>{selectedCurrency.name}</h1> 
+            <h2>Price: <span className='price'>${(+selectedCurrency.priceUsd).toFixed(4)}</span></h2>
+            <h2>Percent change for last 24 hours: {
+                +selectedCurrency.changePercent24Hr >= 0 ?
+                <span className='plus'>+{(+selectedCurrency.changePercent24Hr).toFixed(4)}%</span> :
+                <span className='minus'>{(+selectedCurrency.changePercent24Hr).toFixed(4)}%</span>
+            }</h2>
+            <h2>Market Cap: <span className='price'>${(+selectedCurrency.marketCapUsd).toFixed(4)}</span></h2>
+            <h2>Volume for last 24 hours: <span className='price'>${(+selectedCurrency.volumeUsd24Hr).toFixed(4)}</span></h2>
+            <h2>Supply: {
+                selectedCurrency.maxSupply ? 
+                <>{(+selectedCurrency.supply).toFixed(0)} / {(+selectedCurrency.maxSupply).toFixed(0)}</> : 
+                (+selectedCurrency.supply).toFixed(0)
+            }</h2>
+            <h2>Rank: {selectedCurrency.rank}</h2>
+        </div>
+        {
+            isLoading ? <p>Loading...</p> :
+            <div style={{width: 500, height: 250}}>
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart width={300} height={100} data={data}>
                         <Line type="monotone" dataKey="price" stroke="#8884d8" strokeWidth={2} dot={false} />
                     </LineChart>
                 </ResponsiveContainer>
-                </div>
-            }
-            <p>{selectedCurrency?.priceUsd} USD</p> 
-            <p>{selectedCurrency?.maxSupply ? `${selectedCurrency.supply} / ${selectedCurrency.maxSupply}` : selectedCurrency?.supply}</p>
-            <p>{selectedCurrency?.marketCapUsd}</p>
-            <p>{selectedCurrency?.volumeUsd24Hr}</p>
-            <p>{selectedCurrency?.changePercent24Hr}</p>
-            <p>{selectedCurrency?.vwap24Hr}</p>
-            <button onClick={(e) => openModal(e)}>Add</button>
+            </div>
+        }
+        </div>
+        }
+        </div>
         </main>
     );
 }

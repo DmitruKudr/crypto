@@ -23,6 +23,7 @@ const PurchaseModal: FC<CombinedProps> = ({modal, currency}) => {
             price: +currency.priceUsd * +value, 
             value: +value
         }});
+        modal.setVisible(false)
     }
 
     return (
@@ -32,13 +33,14 @@ const PurchaseModal: FC<CombinedProps> = ({modal, currency}) => {
         >
             <div className='content' onClick={e => e.stopPropagation()}>
                 <h3>{currency.name}</h3>
-                <input
-                    placeholder='1'
+                <input className='input'
+                    type='number'
+                    placeholder='How much currency do you want ot buy?'
                     value={value}
                     onChange={e => setValue(e.target.value)}
                 />
-                <p>Total: {+value * +currency.priceUsd}</p>
-                <button onClick={() => purchaseCurrency()}>Purchase</button>
+                <h4>Total: <span className='price'>${+value * +currency.priceUsd}</span></h4>
+                <button className='button' onClick={() => purchaseCurrency()}>Purchase</button>
             </div>
         </div>
     );

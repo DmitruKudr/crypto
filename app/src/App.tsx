@@ -34,7 +34,7 @@ const App: FC = () => {
         setIsLoading(false);
     }
     useEffect(() => {
-        fetchData();
+        fetchData(32);
     }, []);
 
     
@@ -51,6 +51,7 @@ const App: FC = () => {
     }
     useEffect(() => {
         updateBriefcase();
+        fetchData(32);
     }, [briefcase]);
 
 
