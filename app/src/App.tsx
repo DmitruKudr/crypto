@@ -11,7 +11,9 @@ type ContextType = {
     isLoading: boolean,
     briefcase: Briefcase,
     setBriefcase: React.Dispatch<React.SetStateAction<Briefcase>> | (() => void)
-    updateBriefcase: () => void
+    updateBriefcase: () => void,
+    selectedCurrency: Currency | null,
+    setSelectedCurrency: React.Dispatch<React.SetStateAction<Currency | null>> | (() => void)
 }
 
 export const CurrencyContext = createContext<ContextType>({
@@ -19,11 +21,13 @@ export const CurrencyContext = createContext<ContextType>({
     isLoading: true,
     briefcase: {},
     setBriefcase: () => {},
-    updateBriefcase: () => {}
+    updateBriefcase: () => {},
+    selectedCurrency: null,
+    setSelectedCurrency: () => {}
 });
 
 const App: FC = () => {
-    
+
     const fetchData = async(limit = 10) => {
         const result = await CurrencyService.getAll(limit);
         setCurrency(result);
@@ -31,8 +35,9 @@ const App: FC = () => {
     }
     useEffect(() => {
         fetchData();
-    }, [])
+    }, []);
 
+    
     const [currencyList, setCurrency] = useState<Currency[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [briefcase, setBriefcase] = useState<Briefcase>(getBriefcase())
@@ -44,6 +49,22 @@ const App: FC = () => {
     const updateBriefcase = () => {
         localStorage.setItem('briefcase', JSON.stringify(briefcase));
     }
+    useEffect(() => {
+        updateBriefcase();
+    }, [briefcase]);
+
+
+    const [selectedCurrency, setSelectedCurrency] = useState<Currency | null>(getSelectedCurrency());
+    function getSelectedCurrency(): Currency {
+        const selectedCurrency = localStorage.getItem('selectedCurrency');
+        return selectedCurrency ? JSON.parse(selectedCurrency) : null
+    }
+    const updateSelectedCurrency = () => {
+        localStorage.setItem('selectedCurrency', JSON.stringify(selectedCurrency));
+    }
+    useEffect(() => {
+        updateSelectedCurrency()
+    }, [selectedCurrency]);
 
     return (
         <CurrencyContext.Provider value = {{
@@ -51,7 +72,9 @@ const App: FC = () => {
             isLoading,
             briefcase,
             setBriefcase,
-            updateBriefcase
+            updateBriefcase,
+            selectedCurrency,
+            setSelectedCurrency
         }}>
             <Header />
             <AppRouter />

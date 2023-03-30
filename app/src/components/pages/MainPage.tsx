@@ -7,11 +7,7 @@ import PurchaseModal from '../modals/PurchaseModal';
 
 const MainPage: FC = () => {
     const navigate = useNavigate();
-    const {currencyList, isLoading, briefcase, updateBriefcase} = useContext(CurrencyContext);
-
-    useEffect(() => {
-        updateBriefcase()
-    }, [briefcase])
+    const {currencyList, isLoading, selectedCurrency, setSelectedCurrency} = useContext(CurrencyContext);
 
 
     const pageLimit = 3;
@@ -19,15 +15,21 @@ const MainPage: FC = () => {
     const currentList = currencyList.slice((page - 1) * pageLimit, page * pageLimit);
 
 
-    const [purchaseModal, setPurchaseModal] = useState(true);
-    const [selectedCurrency, setSelectedCurrency] = useState<Currency | null>(null);
+    const [purchaseModal, setPurchaseModal] = useState(false);
 
     const openModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, currency: Currency) => {
         e.stopPropagation();
+        e.preventDefault();
 
         console.log(currency);
         setSelectedCurrency(currency);
         setPurchaseModal(true);
+    }
+
+    const openCurrencyPage = (currency: Currency) => {
+        setSelectedCurrency(currency);
+        navigate('/currency/' + currency.id);
+        setPurchaseModal(false);
     }
 
     return (
@@ -40,7 +42,7 @@ const MainPage: FC = () => {
                 isLoading ? <p>Loading...</p> :
                 <div className='currency-list'>
                     {currentList.map(currency => 
-                        <div className='item' key={currency.id} onClick={() => navigate('/currency/' + currency.id)}>
+                        <div className='item' key={currency.id} onClick={() => openCurrencyPage(currency)}>
                             <p>{currency.name}</p> 
                             <p>{currency.priceUsd} USD</p> 
                             <p>{currency.maxSupply ? `${currency.supply} / ${currency.maxSupply}` : currency.supply}</p>
