@@ -22,7 +22,7 @@ const CurrencyPage: FC = () => {
     }
     useEffect(() => {
       fetchData();
-    }, []);
+    });
 
     const data = history.map(item => {
         return {

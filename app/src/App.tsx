@@ -51,7 +51,8 @@ const App: FC = () => {
     }
     useEffect(() => {
         updateBriefcase();
-        fetchData(32);
+        fetchData(100);
+        // eslint-disable-next-line
     }, [briefcase]);
 
 
@@ -64,7 +65,8 @@ const App: FC = () => {
         localStorage.setItem('selectedCurrency', JSON.stringify(selectedCurrency));
     }
     useEffect(() => {
-        updateSelectedCurrency()
+        updateSelectedCurrency();
+        // eslint-disable-next-line
     }, [selectedCurrency]);
 
     return (

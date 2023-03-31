@@ -25,8 +25,8 @@ const BriefcaseModal: FC<Modal> = ({visible, setVisible}) => {
                     <h4>Purchase Costs</h4>
                 </div>
             {
-                Object.entries(briefcase).map(([key, value]) =>
-                    <div className='item'>
+                Object.entries(briefcase).map(([key, value], i) =>
+                    <div className='item' key={i}>
                         <h3>{key}</h3>
                         <h3>{value.value}</h3>
                         <h3><span className='price'>${(+value.price).toFixed(4)}</span></h3>

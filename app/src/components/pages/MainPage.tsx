@@ -1,8 +1,7 @@
-import React, {FC, useContext, useState, useEffect} from 'react';
+import React, {FC, useContext, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CurrencyContext } from '../../App';
 import Currency from '../../interfaces/currency';
-import BriefcaseModal from '../modals/BriefcaseModal';
 import PurchaseModal from '../modals/PurchaseModal';
 
 const MainPage: FC = () => {
@@ -15,8 +14,8 @@ const MainPage: FC = () => {
     const currentList = currencyList.slice((page - 1) * pageLimit, page * pageLimit);
 
     const changePage = (nextPage: number) => {
-        if(nextPage == 1) {
-            if(page * pageLimit <= currencyList.length) 
+        if(nextPage === 1) {
+            if(page * pageLimit < currencyList.length) 
                 setPage(page + nextPage)
         } else if(page > 1) {
             setPage(page - 1)
