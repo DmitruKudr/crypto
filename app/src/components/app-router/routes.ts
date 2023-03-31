@@ -3,7 +3,7 @@ import CurrencyPage from '../pages/CurrencyPage'
 
 export const routes = [
     {
-        path: '/',
+        path: '/main',
         Page: MainPage
     },
     {

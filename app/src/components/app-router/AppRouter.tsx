@@ -4,7 +4,7 @@ import {routes} from "./routes";
 
 const AppRouter: FC = () => {
     return (
-        <BrowserRouter>
+        <BrowserRouter basename='app'>
             <Routes>
                 {routes.map(({path, Page}) =>
                     <Route key={path} path={path} element={<Page />} />
