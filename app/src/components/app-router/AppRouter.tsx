@@ -5,11 +5,13 @@ import MainPage from '../pages/MainPage';
 
 const AppRouter: FC = () => {
     return (
-        <HashRouter basename={process.env.PUBLIC_URL}>
+        <HashRouter>
             <Routes>
+                <Route path="/">
                 {routes.map(({path, Page}) =>
                     <Route key={path} path={path} element={<Page />} />
                 )}
+                </Route>
             </Routes>
         </HashRouter>
     );
