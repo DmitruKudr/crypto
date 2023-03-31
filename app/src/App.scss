@@ -74,6 +74,11 @@ h4 {
         .top-list {
             display: flex;
             gap: 30px;
+
+            @media screen and (max-width: 756px) {
+                flex-direction: column;
+                gap: 5px;
+            }
         }
         .portfolio {
             display: flex;
@@ -84,6 +89,18 @@ h4 {
             border-bottom: 3px solid transparent;
             transition: all .3s ease-in-out;
             padding-bottom: 5px;
+
+            @media screen and (max-width: 576px) {
+                flex-direction: column;
+                gap: 5px;
+
+                h3 {
+                    font-size: 12px;
+                }
+                h4 {
+                    font-size: 10px;
+                }
+            }
 
             &:hover {
                 border-bottom: 3px solid $color-blue;
@@ -106,7 +123,7 @@ h4 {
 
     .item {
         display: grid;
-        grid-template-columns: repeat(7, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         cursor: pointer;
 
         padding: 20px 0;
@@ -226,9 +243,16 @@ h4 {
 }
 
 .currency-page {
+    margin-top: 10px;
+
     .content {
         display: flex;
         justify-content: space-between;
         color: $color-dark;
+
+        @media screen and (max-width: 1200px) {
+            flex-direction: column;
+            gap: 20px;
+        }
     }
 }

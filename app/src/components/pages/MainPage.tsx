@@ -54,9 +54,6 @@ const MainPage: FC = () => {
                         <h3>Name</h3>
                         <h3>Price</h3>
                         <h3>24h%</h3>
-                        <h3>Market Cap</h3>
-                        <h3>Volume(24h)</h3>
-                        <h3>Circulating Supply</h3>
                     </div>
                     {currentList.map(currency => 
                         <div className='item' key={currency.id} onClick={() => openCurrencyPage(currency)}>
@@ -67,14 +64,6 @@ const MainPage: FC = () => {
                                 <span className='plus'>+{(+currency.changePercent24Hr).toFixed(2)}%</span> :
                                 <span className='minus'>{(+currency.changePercent24Hr).toFixed(2)}%</span>
                             }</h4>
-                            <h4>${(+currency.marketCapUsd).toFixed(2)}</h4>
-                            <h4>${(+currency.volumeUsd24Hr).toFixed(2)}</h4>
-                            <h4>{
-                                currency.maxSupply ? 
-                                <>{(+currency.supply).toFixed(0)} / <br/>{(+currency.maxSupply).toFixed(0)}</> : 
-                                (+currency.supply).toFixed(0)
-                            }</h4>
-
                             <button className='button' onClick={(e) => openModal(e, currency)}>Purchase</button>
                         </div>
                     )}

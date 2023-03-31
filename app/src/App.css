@@ -89,6 +89,15 @@ h4 {
   display: flex;
   gap: 30px;
 }
+@media screen and (max-width: 756px) {
+  .header .content .top-list {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    gap: 5px;
+  }
+}
 .header .content .portfolio {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -103,6 +112,21 @@ h4 {
   -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
   padding-bottom: 5px;
+}
+@media screen and (max-width: 576px) {
+  .header .content .portfolio {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    gap: 5px;
+  }
+  .header .content .portfolio h3 {
+    font-size: 12px;
+  }
+  .header .content .portfolio h4 {
+    font-size: 10px;
+  }
 }
 .header .content .portfolio:hover {
   border-bottom: 3px solid #7ca5d7;
@@ -129,8 +153,8 @@ h4 {
 .currency-list .item {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (1fr)[7];
-  grid-template-columns: repeat(7, 1fr);
+  -ms-grid-columns: (1fr)[4];
+  grid-template-columns: repeat(4, 1fr);
   cursor: pointer;
   padding: 20px 0;
   border-bottom: 1px solid #343434;
@@ -287,6 +311,9 @@ h4 {
   gap: 10px;
 }
 
+.currency-page {
+  margin-top: 10px;
+}
 .currency-page .content {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -295,4 +322,13 @@ h4 {
       -ms-flex-pack: justify;
           justify-content: space-between;
   color: #343434;
+}
+@media screen and (max-width: 1200px) {
+  .currency-page .content {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    gap: 20px;
+  }
 }

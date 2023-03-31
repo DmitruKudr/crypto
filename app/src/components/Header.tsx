@@ -22,7 +22,7 @@ const Header: FC = () => {
     }
 
     const [briefcaseModal, setBriefcaseModal] = useState(false);
-    const openModal = () => {
+    const openModal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         briefcasePrice ? setBriefcaseModal(true) : alert('Your portfolio is empty!')
     }
 
@@ -42,15 +42,20 @@ const Header: FC = () => {
                 </div>
             }
             
-            <div className='portfolio' onClick={openModal}>
-                <i className="fa-solid fa-briefcase fa-xl"></i>
-                <h3>Portfolio: <span className='price'>{briefcasePrice ? '$' + +briefcasePrice.toFixed(2) : 'empty'}</span></h3>
+            <div className='portfolio' onClick={e => openModal(e)}>
+                <div style={{display: 'flex', alignItems: 'center', gap: 5}}>
+                    <i className="fa-solid fa-briefcase fa-xl"></i>
+                    <h3>Portfolio:</h3>
+                </div>
+                <div style={{display: 'flex', alignItems: 'center', gap: 5}}>
+                <h3><span className='price'>{briefcasePrice ? '$' + +briefcasePrice.toFixed(2) : 'empty'}</span></h3>
                     { 
                         isLoading ? <p>Loading...</p> :
-                        difference >= 0 ? 
+                        difference >= 0 ?
                         <h4 className="plus">+{+difference.toFixed(2)} ({+percent.toFixed(4)}%)</h4> :
                         <h4 className="minus">{+difference.toFixed(2)} ({+percent.toFixed(4)}%)</h4>
                     }
+                </div>
                 <button className='button' onClick={e => resetBriefcase(e)}>Reset</button>
             </div>
             
