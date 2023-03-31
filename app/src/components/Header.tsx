@@ -1,4 +1,4 @@
-import React, {FC, useContext, useState} from 'react';
+import React, {FC, useContext, useEffect, useState} from 'react';
 import BriefcaseModal from './modals/BriefcaseModal';
 
 import { CurrencyContext } from '../App';
@@ -25,6 +25,10 @@ const Header: FC = () => {
     const openModal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         briefcasePrice ? setBriefcaseModal(true) : alert('Your portfolio is empty!')
     }
+
+    useEffect(() => {
+        console.log(process.env.PUBLIC_URL)
+    })
 
     return (
         <header className="header">
