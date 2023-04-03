@@ -23,8 +23,12 @@ const PurchaseModal: FC<CombinedProps> = ({modal, currency}) => {
             price: +currency.priceUsd * +value, 
             value: +value
         }});
-        modal.setVisible(false)
+        modal.setVisible(false);
     }
+
+    const TotalPrice = +value * +currency.priceUsd;
+    const minValue = 0.0001;
+    const maxValue = 999;
 
     return (
         <div 
@@ -39,8 +43,12 @@ const PurchaseModal: FC<CombinedProps> = ({modal, currency}) => {
                     value={value}
                     onChange={e => setValue(e.target.value)}
                 />
-                <h4>Total: <span className='price'>${+value * +currency.priceUsd}</span></h4>
-                <button className='button' onClick={() => purchaseCurrency()}>Purchase</button>
+                <h4>Total: <span className='price'>${TotalPrice}</span></h4>
+                {
+                    +value >= minValue && +value < maxValue ?
+                    <button className='button' onClick={() => purchaseCurrency()}>Purchase</button> :
+                    <h4 className='minus'>Wrong value (min = {minValue}, max = {maxValue})</h4>
+                }
             </div>
         </div>
     );

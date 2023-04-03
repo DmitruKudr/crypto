@@ -22,7 +22,8 @@ const CurrencyPage: FC = () => {
     }
     useEffect(() => {
       fetchData();
-    });
+      // eslint-disable-next-line
+    }, []);
 
     const data = history.map(item => {
         return {

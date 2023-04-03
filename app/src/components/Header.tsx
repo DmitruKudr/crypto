@@ -4,8 +4,12 @@ import BriefcaseModal from './modals/BriefcaseModal';
 import { CurrencyContext } from '../App';
 
 const Header: FC = () => {
-    const {currencyList, isLoading, briefcase, setBriefcase} = useContext(CurrencyContext);
+    const {currencyList, isLoading, briefcase, setBriefcase, updateBriefcase} = useContext(CurrencyContext);
     const currencyListTop = currencyList.slice(0, 3);
+
+    useEffect(() => {
+        updateBriefcase();
+    }, [currencyList, briefcase])
 
     const briefcasePrice = Object.values(briefcase).reduce((total, item) => total += item.price, 0);
     const currentPrice = currencyList.reduce((total, item) => {
@@ -17,18 +21,14 @@ const Header: FC = () => {
 
     const resetBriefcase = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.stopPropagation();
-        localStorage.setItem('briefcase', '')
-        setBriefcase({})
+        localStorage.setItem('briefcase', '');
+        setBriefcase({});
     }
 
     const [briefcaseModal, setBriefcaseModal] = useState(false);
     const openModal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         briefcasePrice ? setBriefcaseModal(true) : alert('Your portfolio is empty!')
     }
-
-    useEffect(() => {
-        console.log(process.env.PUBLIC_URL)
-    })
 
     return (
         <header className="header">

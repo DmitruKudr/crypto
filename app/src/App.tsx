@@ -8,7 +8,9 @@ import Briefcase from './interfaces/briefcase';
 
 type ContextType = {
     currencyList: Currency[],
+    setCurrencyList: React.Dispatch<React.SetStateAction<Currency[]>> | (() => void),
     isLoading: boolean,
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>> | (() => void),
     briefcase: Briefcase,
     setBriefcase: React.Dispatch<React.SetStateAction<Briefcase>> | (() => void)
     updateBriefcase: () => void,
@@ -18,7 +20,9 @@ type ContextType = {
 
 export const CurrencyContext = createContext<ContextType>({
     currencyList: [],
+    setCurrencyList: () => {},
     isLoading: true,
+    setIsLoading: () => {},
     briefcase: {},
     setBriefcase: () => {},
     updateBriefcase: () => {},
@@ -27,18 +31,7 @@ export const CurrencyContext = createContext<ContextType>({
 });
 
 const App: FC = () => {
-
-    const fetchData = async(limit = 10) => {
-        const result = await CurrencyService.getAll(limit);
-        setCurrency(result);
-        setIsLoading(false);
-    }
-    useEffect(() => {
-        fetchData(32);
-    }, []);
-
-    
-    const [currencyList, setCurrency] = useState<Currency[]>([]);
+    const [currencyList, setCurrencyList] = useState<Currency[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [briefcase, setBriefcase] = useState<Briefcase>(getBriefcase())
 
@@ -49,11 +42,6 @@ const App: FC = () => {
     const updateBriefcase = () => {
         localStorage.setItem('briefcase', JSON.stringify(briefcase));
     }
-    useEffect(() => {
-        updateBriefcase();
-        fetchData(100);
-        // eslint-disable-next-line
-    }, [briefcase]);
 
 
     const [selectedCurrency, setSelectedCurrency] = useState<Currency | null>(getSelectedCurrency());
@@ -72,7 +60,9 @@ const App: FC = () => {
     return (
         <CurrencyContext.Provider value = {{
             currencyList,
+            setCurrencyList,
             isLoading,
+            setIsLoading,
             briefcase,
             setBriefcase,
             updateBriefcase,

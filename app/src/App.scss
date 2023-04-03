@@ -179,6 +179,13 @@ h4 {
         background: $color-blue;
         transition: all .3s ease-in-out;
     }
+
+    &.disabled {
+        cursor: default;
+        background: transparent;
+        border: 3px solid $color-light-hover;
+        color: $color-light-hover;
+    }
 }
 
 .briefcase-modal, .purchase-modal {

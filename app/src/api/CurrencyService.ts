@@ -1,13 +1,25 @@
 import axios from 'axios'
 
 export default class CurrencyService {
-    static getAll = async (limit: number = 3) => {
+    static getAll = async (limit: number) => {
         const response = await axios.get('https://api.coincap.io/v2/assets', {
             params: { limit: limit }
         });
 
         return response.data.data
     }
+
+    static getSome = async (from: number, limit: number) => {
+        const response = await axios.get('https://api.coincap.io/v2/assets', {
+            params: {
+                offset: from,
+                limit: limit
+            }
+        });
+
+        return response.data.data
+    }
+
     static getHistory = async(currency: string) => {
         const response = await axios.get(`https://api.coincap.io/v2/assets/${currency}/history`, {
             params: {
